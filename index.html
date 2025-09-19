@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clone Agentic - Clona AI dari Manusia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #2d1b69 25%, #0f0f23 50%, #4a0e4e 75%, #000000 100%);
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animasi bintang */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            outline: none;
+            backdrop-filter: blur(10px);
+            width: 300px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 10;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 255, 0.8); }
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #c9b3ff;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-btn {
+            padding: 1.2rem 3rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.4);
+        }
+
+        .hero-image {
+            position: relative;
+            text-align: center;
+        }
+
+        .robot-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .robot-img {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .robot-placeholder {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .decorative-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            animation: shapeFloat 4s ease-in-out infinite;
+        }
+
+        .shape-circle {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 0, 255, 0.6);
+            border-radius: 50%;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-square {
+            width: 35px;
+            height: 35px;
+            border: 3px solid rgba(0, 255, 255, 0.6);
+            transform: rotate(45deg);
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .shape-triangle {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 35px solid rgba(255, 255, 0, 0.6);
+            top: 70%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape-ring {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 105, 180, 0.6);
+            border-radius: 50%;
+            border-top: 4px solid transparent;
+            top: 65%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .shape-hexagon {
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 255, 128, 0.6);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            top: 45%;
+            left: 5%;
+            animation-delay: 1.5s;
+        }
+
+        .shape-diamond {
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 165, 0, 0.6);
+            transform: rotate(45deg);
+            top: 35%;
+            right: 5%;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes shapeFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translateY(-15px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+
+
+        /* Stats Section */
+        .stats {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: #ff69b4;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: #c9b3ff;
+            font-size: 1.1rem;
+        }
+
+        /* Partner Logos */
+        .partners {
+            padding: 4rem 0;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .partners h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #ff69b4;
+        }
+
+        .partner-scroll {
+            display: flex;
+            animation: scroll 20s linear infinite;
+            gap: 3rem;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .partner-logo {
+            min-width: 150px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #00ffff;
+        }
+
+        /* Role Agents Section */
+        .role-agents {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .role-agents h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #ff69b4;
+        }
+
+        .agents-slider {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-behavior: smooth;
+        }
+
+        .agent-card {
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2);
+        }
+
+        .agent-photo {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #1a237e, #4a148c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-photo-placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .agent-info {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            background: linear-gradient(135deg, #2d1b69 0%, #4a0e4e 50%, #1a0033 100%);
+        }
+
+        .agent-content {
+            flex: 1;
+        }
+
+        .agent-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .agent-card p {
+            color: #e0d4ff;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .agent-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #ffd700;
+            font-weight: 500;
+        }
+
+        .deploy-btn {
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.3);
+        }
+
+        .deploy-btn:hover {
+            background: linear-gradient(45deg, #e600e6, #00e6e6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Example Agents */
+        .example-agents {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .example-agents h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #ff69b4;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .example-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2);
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #1a237e, #4a148c);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .video-placeholder-content {
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .video-placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .generator-btn {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generator-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 0, 255, 0.4);
+        }
+
+        /* Websites Gallery */
+        .websites-gallery {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .websites-gallery h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #ff69b4;
+        }
+
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .website-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .website-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2);
+        }
+
+        .website-preview {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #1a237e, #4a148c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .website-info {
+            padding: 1.5rem;
+        }
+
+        .website-info h3 {
+            color: #ff69b4;
+            margin-bottom: 0.5rem;
+        }
+
+        .website-info p {
+            color: #c9b3ff;
+            font-size: 0.9rem;
+        }
+
+        /* Social Media */
+        .social-media {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .social-media h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #ff69b4;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ff69b4;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #c9b3ff;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+
+        .footer-section a:hover {
+            color: #ff00ff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            color: #c9b3ff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+            
+            .robot-img {
+                width: 300px;
+                height: 300px;
+                font-size: 6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bintang-bintang -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Clone Agentic</div>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Cari AI Agent...">
+            <button class="search-btn">Search</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Clone Agentic</h1>
+            <p>Clona AI dari sebuah manusia. Ciptakan AI Agent yang dapat meniru kepribadian, gaya bicara, dan keahlian seseorang dengan teknologi terdepan.</p>
+            <button class="hero-btn" onclick="startCloning()">Mulai Cloning</button>
+        </div>
+        <div class="hero-image">
+            <div class="robot-container">
+                <div class="robot-img">
+                    <div class="robot-placeholder">
+                        <div style="font-size: 1.2rem; margin-bottom: 0.5rem; z-index: 2; position: relative;">Robot.png</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; z-index: 2; position: relative;">AI Robot Image Placeholder</div>
+                        <div class="decorative-shapes">
+                            <div class="shape shape-circle"></div>
+                            <div class="shape shape-square"></div>
+                            <div class="shape shape-triangle"></div>
+                            <div class="shape shape-ring"></div>
+                            <div class="shape shape-hexagon"></div>
+                            <div class="shape shape-diamond"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stat-item">
+            <h3>9</h3>
+            <p>Role</p>
+        </div>
+        <div class="stat-item">
+            <h3>15</h3>
+            <p>User</p>
+        </div>
+        <div class="stat-item">
+            <h3>27</h3>
+            <p>AI Agent</p>
+        </div>
+        <div class="stat-item">
+            <h3>1829</h3>
+            <p>Conversation</p>
+        </div>
+    </section>
+
+    <!-- Partner Logos -->
+    <section class="partners">
+        <h2>Partner Kami</h2>
+        <div class="partner-scroll">
+            <div class="partner-logo">OpenAI</div>
+            <div class="partner-logo">Google AI</div>
+            <div class="partner-logo">Microsoft</div>
+            <div class="partner-logo">Meta AI</div>
+            <div class="partner-logo">Anthropic</div>
+            <div class="partner-logo">Hugging Face</div>
+            <div class="partner-logo">NVIDIA</div>
+            <div class="partner-logo">DeepMind</div>
+            <!-- Duplikat untuk scroll seamless -->
+            <div class="partner-logo">OpenAI</div>
+            <div class="partner-logo">Google AI</div>
+            <div class="partner-logo">Microsoft</div>
+            <div class="partner-logo">Meta AI</div>
+            <div class="partner-logo">Anthropic</div>
+            <div class="partner-logo">Hugging Face</div>
+            <div class="partner-logo">NVIDIA</div>
+            <div class="partner-logo">DeepMind</div>
+        </div>
+    </section>
+
+    <!-- Role Agents -->
+    <section class="role-agents">
+        <h2>Role AI Agent</h2>
+        <div class="agents-slider" id="agentsSlider">
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role1.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Business Consultant</h3>
+                        <p>Konsultan bisnis profesional</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.9⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role2.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Education Mentor</h3>
+                        <p>Mentor pendidikan berpengalaman</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.9⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role3.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Health Advisor</h3>
+                        <p>Penasihat kesehatan terpercaya</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.2⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role4.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Tech Expert</h3>
+                        <p>Ahli teknologi dan programming</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.9⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role5.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Creative Designer</h3>
+                        <p>Desainer kreatif profesional</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.2⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role6.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Marketing Guru</h3>
+                        <p>Ahli strategi pemasaran</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.9⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role7.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Research Analyst</h3>
+                        <p>Analis riset mendalam</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.2⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role8.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Content Creator</h3>
+                        <p>Kreator konten viral</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.9⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-photo">
+                    <div class="agent-photo-placeholder">role9.png</div>
+                </div>
+                <div class="agent-info">
+                    <div class="agent-content">
+                        <h3>Financial Advisor</h3>
+                        <p>Penasihat keuangan ahli</p>
+                    </div>
+                    <div class="agent-actions">
+                        <button class="deploy-btn">Deploy</button>
+                        <div class="rating">4.2⭐</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Agents -->
+    <section class="example-agents">
+        <h2>Contoh AI Agent</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <div class="agent-photo" style="width: 80px; height: 80px; margin: 0 auto;">
+                    <div class="agent-photo-placeholder" style="font-size: 0.6rem;">
+                        <div>contoh1.png</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Timothy Ronald AI</h3>
+                    <p>Clone dari entrepreneur sukses Timothy Ronald</p>
+                </div>
+            </div>
+            <div class="example-card">
+                <div class="agent-photo" style="width: 80px; height: 80px; margin: 0 auto;">
+                    <div class="agent-photo-placeholder" style="font-size: 0.6rem;">
+                        <div>contoh2.png</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>KDM AI</h3>
+                    <p>Clone dari mentor bisnis KDM</p>
+                </div>
+            </div>
+            <div class="example-card">
+                <div class="agent-photo" style="width: 80px; height: 80px; margin: 0 auto;">
+                    <div class="agent-photo-placeholder" style="font-size: 0.6rem;">
+                        <div>contoh3.png</div>
+                    </div>
+                </div>
+                <div>
+                    <h3>CaptGPT</h3>
+                    <p>AI Agent khusus untuk copywriting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="video-container">
+            <div class="video-placeholder">
+                <div class="video-placeholder-icon">▶</div>
+                <div class="video-placeholder-content">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">video.mp4</div>
+                    <div style="font-size: 1rem; opacity: 0.8;">Video Demo AI Agent</div>
+                </div>
+            </div>
+            <button class="generator-btn" onclick="openGenerator()">AI Website Generator</button>
+        </div>
+    </section>
+
+    <!-- Websites Gallery -->
+    <section class="websites-gallery">
+        <h2>Website yang Telah Dibuat</h2>
+        <div class="websites-grid" id="websitesGrid">
+            <!-- 20 website cards akan di-generate oleh JavaScript -->
+        </div>
+    </section>
+
+    <!-- Social Media -->
+    <section class="social-media">
+        <h2>Ikuti Kami</h2>
+        <div class="social-links">
+            <a href="#" class="social-link">FB</a>
+            <a href="#" class="social-link">TW</a>
+            <a href="#" class="social-link">IG</a>
+            <a href="#" class="social-link">LI</a>
+            <a href="#" class="social-link">TT</a>
+            <a href="#" class="social-link">YT</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Clone Agentic</h3>
+                <p>Platform terdepan untuk menciptakan AI Agent yang dapat meniru kepribadian manusia dengan teknologi canggih.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Layanan</h3>
+                <p><a href="#">AI Agent Creation</a></p>
+                <p><a href="#">Custom Training</a></p>
+                <p><a href="#">API Integration</a></p>
+                <p><a href="#">Enterprise Solution</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Dukungan</h3>
+                <p><a href="#">Dokumentasi</a></p>
+                <p><a href="#">Tutorial</a></p>
+                <p><a href="#">Community</a></p>
+                <p><a href="#">Contact Support</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Perusahaan</h3>
+                <p><a href="#">Tentang Kami</a></p>
+                <p><a href="#">Karir</a></p>
+                <p><a href="#">Blog</a></p>
+                <p><a href="#">Press Kit</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clone Agentic. Semua hak dilindungi. Dibuat dengan cinta untuk masa depan AI.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Membuat bintang-bintang
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 150;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+
+
+        // Generate website cards
+        function generateWebsiteCards() {
+            const websitesGrid = document.getElementById('websitesGrid');
+            const websiteTypes = [
+                'E-commerce Store', 'Portfolio Website', 'Corporate Site', 'Blog Platform',
+                'Landing Page', 'Restaurant Menu', 'Real Estate', 'Education Portal',
+                'Healthcare Clinic', 'Travel Agency', 'Fashion Brand', 'Tech Startup',
+                'Photography Studio', 'Fitness Center', 'Music Band', 'Art Gallery',
+                'Consulting Firm', 'Food Delivery', 'Gaming Community', 'News Portal'
+            ];
+
+            for (let i = 0; i < 20; i++) {
+                const card = document.createElement('div');
+                card.className = 'website-card';
+                card.innerHTML = `
+                    <div class="website-preview">
+                        <div style="color: rgba(255, 255, 255, 0.7); font-size: 1rem; font-weight: 500;">
+                            website${i + 1}.png
+                        </div>
+                    </div>
+                    <div class="website-info">
+                        <h3>${websiteTypes[i]}</h3>
+                        <p>Website modern dan responsif dengan desain futuristik</p>
+                    </div>
+                `;
+                websitesGrid.appendChild(card);
+            }
+        }
+
+        // Fungsi untuk tombol
+        function startCloning() {
+            alert('Memulai proses cloning AI Agent! Siapkan data kepribadian yang ingin di-clone.');
+        }
+
+        function openGenerator() {
+            alert('Membuka AI Website Generator! Buat website impian Anda dalam hitungan menit.');
+        }
+
+        // Slider functionality
+        let currentSlide = 0;
+        const slider = document.getElementById('agentsSlider');
+
+        function slideAgents(direction) {
+            const cardWidth = 320; // 300px + 20px gap
+            const maxSlide = slider.children.length - Math.floor(slider.offsetWidth / cardWidth);
+            
+            if (direction === 'next' && currentSlide < maxSlide) {
+                currentSlide++;
+            } else if (direction === 'prev' && currentSlide > 0) {
+                currentSlide--;
+            }
+            
+            slider.scrollTo({
+                left: currentSlide * cardWidth,
+                behavior: 'smooth'
+            });
+        }
+
+        // Auto-slide untuk agents
+        setInterval(() => {
+            slideAgents('next');
+            if (currentSlide >= slider.children.length - Math.floor(slider.offsetWidth / 320)) {
+                currentSlide = -1; // Reset untuk loop
+            }
+        }, 5000);
+
+        // Deploy button functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('deploy-btn')) {
+                const agentName = e.target.closest('.agent-info').querySelector('h3').textContent;
+                alert(`Deploying ${agentName}! AI Agent akan aktif dalam beberapa detik.`);
+                
+                // Animasi button
+                e.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.target.style.transform = 'scale(1)';
+                    e.target.textContent = 'Deployed ✓';
+                    e.target.style.background = 'linear-gradient(45deg, #00cc66, #00ff88)';
+                }, 200);
+                
+                setTimeout(() => {
+                    e.target.textContent = 'Deploy';
+                    e.target.style.background = 'linear-gradient(45deg, #0066ff, #00ccff)';
+                }, 3000);
+            }
+        });
+
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', () => {
+            const searchTerm = document.querySelector('.search-box').value;
+            if (searchTerm) {
+                alert(`Mencari AI Agent: "${searchTerm}"`);
+            }
+        });
+
+        document.querySelector('.search-box').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-btn').click();
+            }
+        });
+
+        // Parallax effect untuk floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const floatingElements = document.querySelectorAll('.floating-element');
+            
+            floatingElements.forEach((element, index) => {
+                const speed = (index + 1) * 0.1;
+                element.style.transform += ` translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            generateWebsiteCards();
+        });
+
+        // Smooth scroll untuk internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9817e1f2b46d5f9d',t:'MTc1ODI3MjMyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
